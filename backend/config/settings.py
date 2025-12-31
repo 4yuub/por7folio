@@ -158,4 +158,10 @@ if not EMAIL_HOST_USER or 'your-email' in EMAIL_HOST_USER:
 
 CORS_ALLOW_ALL_ORIGINS = True  # For development
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://por7folio-backend-941195300524.europe-west1.run.app',
+    'https://por7folio-frontend-941195300524.europe-west1.run.app',
+    'https://4yuub.com',
+]
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
