@@ -49,7 +49,8 @@ class Project(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='projects/', blank=True)
     cropping = ImageRatioField('image', '800x450')
-    url = models.URLField(blank=True)
+    url = models.URLField(blank=True, verbose_name="Deployed URL")
+    github_url = models.URLField(blank=True, verbose_name="GitHub URL")
     technologies = models.CharField(max_length=200)
     order = models.PositiveIntegerField(default=0)
 
@@ -58,6 +59,17 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+class ProjectImage(models.Model):
+    project = models.ForeignKey(Project, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='projects/gallery/')
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return f"Image for {self.project.title}"
 
 class Skill(models.Model):
     CATEGORY_CHOICES = [

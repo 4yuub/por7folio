@@ -14,8 +14,13 @@
           </div>
         </div>
 
-        <div v-if="projects.length" class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-          <ProjectCard v-for="project in projects" :key="project.id" :project="project" />
+        <div v-if="projects.length" class="max-w-6xl mx-auto flex flex-col gap-12">
+          <div v-for="(project, index) in projects" :key="project.id" :class="[
+            'w-full md:w-[85%] transition-all duration-700',
+            index % 2 === 0 ? 'self-start' : 'self-end'
+          ]">
+            <ProjectCard :project="project" />
+          </div>
         </div>
         <p v-else class="text-center font-mono text-muted-foreground animate-pulse text-sm">Loading projects.json...</p>
       </section>

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from easy_thumbnails.files import get_thumbnailer
-from .models import Profile, Company, Experience, Project, Skill, ContactMessage
+from .models import Profile, Company, Experience, Project, Skill, ContactMessage, ProjectImage
 
 class ProfileSerializer(serializers.ModelSerializer):
     cropped_picture = serializers.SerializerMethodField()
@@ -28,8 +28,14 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = ('id', 'name', 'location', 'website', 'logo', 'order', 'experiences')
 
+class ProjectImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectImage
+        fields = ('id', 'image', 'order')
+
 class ProjectSerializer(serializers.ModelSerializer):
     cropped_image = serializers.SerializerMethodField()
+    images = ProjectImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Project

@@ -1,11 +1,15 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin, StackedInline
 from image_cropping import ImageCroppingMixin
-from .models import Profile, Company, Experience, Project, Skill, ContactMessage
+from .models import Profile, Company, Experience, Project, Skill, ContactMessage, ProjectImage
 
 class ExperienceInline(StackedInline):
     model = Experience
     extra = 1
+
+class ProjectImageInline(StackedInline):
+    model = ProjectImage
+    extra = 3
 
 @admin.register(Profile)
 class ProfileAdmin(ImageCroppingMixin, ModelAdmin):
@@ -27,6 +31,7 @@ class ExperienceAdmin(ModelAdmin):
 class ProjectAdmin(ImageCroppingMixin, ModelAdmin):
     list_display = ('title', 'technologies', 'order')
     list_editable = ('order',)
+    inlines = [ProjectImageInline]
 
 @admin.register(Skill)
 class SkillAdmin(ModelAdmin):
