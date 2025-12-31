@@ -132,7 +132,8 @@ const allExperiences = computed(() => {
   return exps.sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
 })
 
-const BACKEND_URL = 'http://localhost:8000'
+const BACKEND_URL = import.meta.env.DEV ? 'http://localhost:8000' : ''
+const API_BASE = import.meta.env.DEV ? `${BACKEND_URL}/api` : '/api'
 
 const fixImageUrl = (url) => {
   if (!url) return null
@@ -142,24 +143,24 @@ const fixImageUrl = (url) => {
 
 onMounted(async () => {
   try {
-    const projRes = await fetch(`${BACKEND_URL}/api/projects/`)
+    const projRes = await fetch(`${API_BASE}/projects/`)
     const projData = await projRes.json()
     projects.value = projData.map(p => ({
       ...p,
       image: fixImageUrl(p.cropped_image || p.image)
     }))
 
-    const compRes = await fetch(`${BACKEND_URL}/api/companies/`)
+    const compRes = await fetch(`${API_BASE}/companies/`)
     const compData = await compRes.json()
     companies.value = compData.map(c => ({
       ...c,
       logo: fixImageUrl(c.logo)
     }))
 
-    const skillRes = await fetch(`${BACKEND_URL}/api/skills/`)
+    const skillRes = await fetch(`${API_BASE}/skills/`)
     skills.value = await skillRes.json()
 
-    const profRes = await fetch(`${BACKEND_URL}/api/profile/`)
+    const profRes = await fetch(`${API_BASE}/profile/`)
     const profData = await profRes.json()
     if (profData && profData.length > 0) {
       const rawProfile = profData[profData.length - 1]

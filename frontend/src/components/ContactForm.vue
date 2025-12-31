@@ -86,7 +86,8 @@ const handleSubmit = async () => {
   status.value = null
 
   try {
-    const response = await fetch('http://localhost:8000/api/contact/', {
+    const API_BASE = import.meta.env.DEV ? 'http://localhost:8000/api' : '/api'
+    const response = await fetch(`${API_BASE}/contact/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

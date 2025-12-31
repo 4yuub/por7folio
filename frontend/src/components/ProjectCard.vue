@@ -169,7 +169,7 @@ const techList = computed(() => {
 const showCarousel = ref(false)
 const currentImageIndex = ref(0)
 
-const BACKEND_URL = 'http://localhost:8000'
+const BACKEND_URL = import.meta.env.DEV ? 'http://localhost:8000' : ''
 
 const fixImageUrl = (url) => {
   if (!url) return null
