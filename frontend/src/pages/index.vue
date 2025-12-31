@@ -1,10 +1,10 @@
 <template>
   <div class="min-h-screen bg-[#fafafa] dark:bg-[#0b0f1a] selection:bg-primary/20">
-    <div class="container mx-auto px-6 py-12 space-y-32">
+    <div class="container mx-auto px-6 py-0 space-y-24">
       <Hero :profile="profile" />
 
       <!-- Projects Section -->
-      <section id="projects" class="space-y-16">
+      <section id="projects" class="space-y-24 pt-16">
         <div class="space-y-4">
           <div class="flex items-center gap-4">
             <h2 class="text-2xl font-mono font-black text-cozy-charcoal dark:text-white uppercase tracking-tighter">
