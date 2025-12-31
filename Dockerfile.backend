@@ -27,8 +27,9 @@ RUN poetry config virtualenvs.create false \
 # Copy backend project files
 COPY backend/ .
 
-# Expose port
-EXPOSE 8000
+# Copy and setup entrypoint
+COPY backend/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-# Command to run the application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Use entrypoint script
+ENTRYPOINT ["/app/entrypoint.sh"]

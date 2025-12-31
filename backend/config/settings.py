@@ -25,7 +25,14 @@ SECRET_KEY = "django-insecure-4o0b4ew!8$b%d*x9n+e&50$yaaal^)pozv%)ka=-^irjw5x#($
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'por7folio-backend-941195300524.europe-west1.run.app',
+    'por7folio-frontend-941195300524.europe-west1.run.app',
+    '4yuub.com',
+    'localhost',
+    '127.0.0.1',
+    '.run.app',
+]
 
 
 # Application definition
