@@ -1,9 +1,15 @@
 from rest_framework import serializers
 from easy_thumbnails.files import get_thumbnailer
-from .models import Profile, Company, Experience, Project, Skill, ContactMessage, ProjectImage
+from .models import Profile, Company, Experience, Project, Skill, ContactMessage, ProjectImage, Language
+
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Language
+        fields = ('id', 'name', 'proficiency')
 
 class ProfileSerializer(serializers.ModelSerializer):
     cropped_picture = serializers.SerializerMethodField()
+    languages = LanguageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Profile

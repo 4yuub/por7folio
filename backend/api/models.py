@@ -15,6 +15,14 @@ class Profile(models.Model):
     def __str__(self):
         return self.name
 
+class Language(models.Model):
+    profile = models.ForeignKey(Profile, related_name='languages', on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    proficiency = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name} ({self.proficiency})"
+
 class Company(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100, blank=True)
@@ -81,6 +89,10 @@ class Skill(models.Model):
     ]
     name = models.CharField(max_length=50)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['category', 'order', 'name']
 
     def __str__(self):
         return f"{self.name} ({self.category})"

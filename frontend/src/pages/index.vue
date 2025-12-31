@@ -73,6 +73,26 @@
         </p>
       </section>
 
+      <!-- Skills Section -->
+      <section id="skills" class="py-16 scroll-mt-20">
+        <div class="max-w-6xl mx-auto px-4 mb-12">
+          <div class="flex items-center gap-4 group">
+            <div class="px-3 py-1 bg-primary/10 border border-primary/20 rounded-md">
+              <span class="text-[10px] font-mono font-bold text-primary uppercase tracking-widest">GET</span>
+            </div>
+            <h2
+              class="text-xl font-mono font-bold text-white tracking-tight group-hover:text-primary transition-colors">
+              /Skills</h2>
+            <div class="h-[1px] flex-grow bg-white/5 mx-4"></div>
+          </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-4">
+          <Skills v-if="skills.length" :skills="skills" />
+          <p v-else class="text-center font-mono text-muted-foreground animate-pulse text-sm">Loading Skills.json...</p>
+        </div>
+      </section>
+
       <!-- Contact Section -->
       <section id="contact" class="pb-32 space-y-16">
         <div class="flex items-center gap-4">
@@ -92,10 +112,12 @@
 <script setup>
 import { ExternalLink } from 'lucide-vue-next'
 import { computed, onMounted, ref } from 'vue'
+import Skills from '../components/Skills.vue'
 
 const projects = ref([])
 const companies = ref([])
 const profile = ref(null)
+const skills = ref([])
 
 const allExperiences = computed(() => {
   const exps = []
@@ -133,6 +155,9 @@ onMounted(async () => {
       ...c,
       logo: fixImageUrl(c.logo)
     }))
+
+    const skillRes = await fetch(`${BACKEND_URL}/api/skills/`)
+    skills.value = await skillRes.json()
 
     const profRes = await fetch(`${BACKEND_URL}/api/profile/`)
     const profData = await profRes.json()

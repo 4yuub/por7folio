@@ -52,7 +52,16 @@
             <div class="flex flex-wrap gap-x-2">
               <span class="text-code-key">"bio"</span><span class="text-white">:</span>
               <span class="text-code-string">"{{ profile?.bio || 'Building scalable digital experiences.'
-              }}"</span><span class="text-white">,</span>
+                }}"</span><span class="text-white">,</span>
+            </div>
+
+            <div v-if="profile?.languages && profile.languages.length > 0" class="flex flex-wrap gap-x-2">
+              <span class="text-code-key">"languages"</span><span class="text-white">:</span>
+              <span class="text-white">[</span>
+              <span v-for="(lang, index) in profile.languages" :key="lang.id" class="text-code-string">
+                "{{ lang.name + ' (' + lang.proficiency + ')' }}"{{ index < profile.languages.length - 1 ? ',' : '' }}
+                  </span>
+                  <span class="text-white">],</span>
             </div>
 
             <div class="flex flex-wrap gap-x-2">
