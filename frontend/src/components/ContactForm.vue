@@ -15,7 +15,7 @@
         <div class="space-y-4 font-mono">
           <div class="flex flex-col">
             <span class="text-[10px] text-code-comment uppercase tracking-widest">Email</span>
-            <a href="mailto:karafi.work@gmail.com" class="text-sm text-primary hover:underline">karafi.work@gmail.com</a>
+            <a href="mailto:catch-all@4yuub.com" class="text-sm text-primary hover:underline">catch-all@4yuub.com</a>
           </div>
           <div class="flex flex-col">
             <span class="text-[10px] text-code-comment uppercase tracking-widest">Local-Time</span>
@@ -28,23 +28,26 @@
       <form @submit.prevent="handleSubmit" class="flex-1 space-y-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
           <div class="space-y-2">
-            <label for="name" class="text-[10px] font-mono font-bold uppercase tracking-widest text-code-comment">Name</label>
+            <label for="name"
+              class="text-[10px] font-mono font-bold uppercase tracking-widest text-code-comment">Name</label>
             <input v-model="form.name" type="text" id="name" required
-              class="w-full bg-transparent border-b border-border/60 py-2 text-base focus:border-primary outline-none transition-all placeholder:text-muted-foreground/20 font-mono"
+              class="w-full bg-transparent border-b border-border/60 px-4 py-2 text-base text-muted-foreground focus:border-primary outline-none transition-all placeholder:text-white/20 font-mono rounded-t-md"
               placeholder="e.g. Satoshi Nakamoto" />
           </div>
           <div class="space-y-2">
-            <label for="email" class="text-[10px] font-mono font-bold uppercase tracking-widest text-code-comment">Email</label>
+            <label for="email"
+              class="text-[10px] font-mono font-bold uppercase tracking-widest text-code-comment">Email</label>
             <input v-model="form.email" type="email" id="email" required
-              class="w-full bg-transparent border-b border-border/60 py-2 text-base focus:border-primary outline-none transition-all placeholder:text-muted-foreground/20 font-mono"
+              class="w-full bg-transparent border-b border-border/60 px-4 py-2 text-base text-muted-foreground focus:border-primary outline-none transition-all placeholder:text-white/20 font-mono rounded-t-md"
               placeholder="satoshi@bitcoin.org" />
           </div>
         </div>
 
         <div class="space-y-2">
-          <label for="message" class="text-[10px] font-mono font-bold uppercase tracking-widest text-code-comment">Message</label>
+          <label for="message"
+            class="text-[10px] font-mono font-bold uppercase tracking-widest text-code-comment">Message</label>
           <textarea v-model="form.message" id="message" required rows="3"
-            class="w-full bg-transparent border-b border-border/60 py-2 text-base focus:border-primary outline-none transition-all placeholder:text-muted-foreground/20 resize-none font-mono"
+            class="w-full bg-transparent border-b border-border/60 px-4 py-2 text-base text-muted-foreground focus:border-primary outline-none transition-all placeholder:text-white/20 resize-none font-mono rounded-t-md"
             placeholder="What's on your mind?"></textarea>
         </div>
 

@@ -32,18 +32,29 @@
         </div>
 
         <div v-if="companies.length" class="max-w-3xl mx-auto space-y-16">
-          <div v-for="company in companies" :key="company.id" class="relative pl-12 border-l-2 border-border/40 last:border-l-transparent">
+          <div v-for="company in companies" :key="company.id"
+            class="relative pl-12 border-l-2 border-border/40 last:border-l-transparent">
             <!-- Company Big Dot -->
-            <div class="absolute -left-[11px] top-0 h-5 w-5 rounded-full border-2 border-primary bg-background z-10 flex items-center justify-center">
+            <div
+              class="absolute -left-[11px] top-0 h-5 w-5 rounded-full border-2 border-primary bg-background z-10 flex items-center justify-center">
               <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
             </div>
-            
+
             <div class="space-y-10">
               <div class="flex items-center gap-4 -mt-1.5">
-                <img v-if="company.logo" :src="company.logo" :alt="company.name" class="h-10 w-10 rounded-xl object-contain bg-white p-1.5 border border-border/50 shadow-sm" />
+                <img v-if="company.logo" :src="company.logo" :alt="company.name"
+                  class="h-10 w-10 rounded-xl object-contain bg-white p-1.5 border border-border/50 shadow-sm" />
                 <div class="flex flex-col">
-                  <h3 class="text-2xl font-black text-cozy-charcoal dark:text-white tracking-tight leading-none">{{ company.name }}</h3>
-                  <span class="text-[10px] font-mono text-code-comment uppercase tracking-widest mt-1">Organization</span>
+                  <div class="flex items-center gap-2">
+                    <h3 class="text-2xl font-black text-cozy-charcoal dark:text-white tracking-tight leading-none">{{
+                      company.name }}</h3>
+                    <a v-if="company.website" :href="company.website" target="_blank"
+                      class="text-primary hover:text-primary/70 transition-colors">
+                      <ExternalLink :size="16" stroke-width="3" />
+                    </a>
+                  </div>
+                  <span
+                    class="text-[10px] font-mono text-code-comment uppercase tracking-widest mt-1">Organization</span>
                 </div>
               </div>
 
@@ -53,7 +64,8 @@
             </div>
           </div>
         </div>
-        <p v-else class="text-center font-mono text-muted-foreground animate-pulse text-sm">Fetching experience.log...</p>
+        <p v-else class="text-center font-mono text-muted-foreground animate-pulse text-sm">Fetching experience.log...
+        </p>
       </section>
 
       <!-- Contact Section -->
@@ -73,6 +85,7 @@
 </template>
 
 <script setup>
+import { ExternalLink } from 'lucide-vue-next'
 import { computed, onMounted, ref } from 'vue'
 
 const projects = ref([])
