@@ -4,6 +4,8 @@ import { routes } from 'vue-router/auto-routes'
 import App from './App.vue'
 import './index.css'
 
+import { VueQueryPlugin } from '@tanstack/vue-query'
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
@@ -11,4 +13,5 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
+app.use(VueQueryPlugin)
 app.mount('#app')

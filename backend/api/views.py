@@ -1,4 +1,6 @@
 from rest_framework import viewsets
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from .models import Profile, Company, Experience, Project, Skill, ContactMessage
 from .serializers import (
     ProfileSerializer, 
@@ -9,22 +11,30 @@ from .serializers import (
     ContactMessageSerializer
 )
 
+@method_decorator(cache_page(60*15), name='list')
+@method_decorator(cache_page(60*15), name='retrieve')
 class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.prefetch_related('languages').all()
     serializer_class = ProfileSerializer
 
+@method_decorator(cache_page(60*15), name='list')
+@method_decorator(cache_page(60*15), name='retrieve')
 class CompanyViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Company.objects.all()
+    queryset = Company.objects.prefetch_related('experiences').all()
     serializer_class = CompanySerializer
 
 class ExperienceViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Experience.objects.all()
     serializer_class = ExperienceSerializer
 
+@method_decorator(cache_page(60*15), name='list')
+@method_decorator(cache_page(60*15), name='retrieve')
 class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Project.objects.all()
+    queryset = Project.objects.prefetch_related('images').all()
     serializer_class = ProjectSerializer
 
+@method_decorator(cache_page(60*15), name='list')
+@method_decorator(cache_page(60*15), name='retrieve')
 class SkillViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer

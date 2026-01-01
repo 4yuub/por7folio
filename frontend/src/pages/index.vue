@@ -1,6 +1,11 @@
 <template>
   <div class="min-h-screen bg-[#fafafa] dark:bg-[#0b0f1a] selection:bg-primary/20">
-    <div class="container mx-auto px-6 py-0 space-y-24">
+    <div v-if="isLoading" class="flex flex-col items-center justify-center min-h-screen space-y-4">
+      <div class="w-12 h-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin"></div>
+      <p class="font-mono text-sm text-muted-foreground animate-pulse">Initializing System...</p>
+    </div>
+
+    <div v-else class="container mx-auto px-6 py-0 space-y-24">
       <Hero :profile="profile" />
 
       <!-- Projects Section -->
@@ -108,27 +113,10 @@
 </template>
 
 <script setup>
+import { useQuery } from '@tanstack/vue-query'
 import { ExternalLink } from 'lucide-vue-next'
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import Skills from '../components/Skills.vue'
-
-const projects = ref([])
-const companies = ref([])
-const profile = ref(null)
-const skills = ref([])
-
-const allExperiences = computed(() => {
-  const exps = []
-  companies.value.forEach(company => {
-    company.experiences.forEach(exp => {
-      exps.push({
-        ...exp,
-        company_name: company.name
-      })
-    })
-  })
-  return exps.sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
-})
 
 const BACKEND_URL = import.meta.env.DEV ? 'http://localhost:8000' : ''
 const API_BASE = import.meta.env.DEV ? `${BACKEND_URL}/api` : '/api'
@@ -139,36 +127,85 @@ const fixImageUrl = (url) => {
   return `${BACKEND_URL}${url}`
 }
 
-onMounted(async () => {
-  try {
-    const projRes = await fetch(`${API_BASE}/projects/`)
-    const projData = await projRes.json()
-    projects.value = projData.map(p => ({
-      ...p,
-      image: fixImageUrl(p.cropped_image || p.image)
-    }))
+// Data fetching Functions
+const fetchProjects = async () => {
+  const res = await fetch(`${API_BASE}/projects/`)
+  const data = await res.json()
+  return data.map(p => ({
+    ...p,
+    image: fixImageUrl(p.cropped_image || p.image)
+  }))
+}
 
-    const compRes = await fetch(`${API_BASE}/companies/`)
-    const compData = await compRes.json()
-    companies.value = compData.map(c => ({
-      ...c,
-      logo: fixImageUrl(c.logo)
-    }))
+const fetchCompanies = async () => {
+  const res = await fetch(`${API_BASE}/companies/`)
+  const data = await res.json()
+  return data.map(c => ({
+    ...c,
+    logo: fixImageUrl(c.logo)
+  }))
+}
 
-    const skillRes = await fetch(`${API_BASE}/skills/`)
-    skills.value = await skillRes.json()
+const fetchSkills = async () => {
+  const res = await fetch(`${API_BASE}/skills/`)
+  return res.json()
+}
 
-    const profRes = await fetch(`${API_BASE}/profile/`)
-    const profData = await profRes.json()
-    if (profData && profData.length > 0) {
-      const rawProfile = profData[profData.length - 1]
-      profile.value = {
-        ...rawProfile,
-        profile_picture: fixImageUrl(rawProfile.cropped_picture || rawProfile.profile_picture)
-      }
+const fetchProfile = async () => {
+  const res = await fetch(`${API_BASE}/profile/`)
+  const data = await res.json()
+  if (data && data.length > 0) {
+    const rawProfile = data[data.length - 1]
+    return {
+      ...rawProfile,
+      profile_picture: fixImageUrl(rawProfile.cropped_picture || rawProfile.profile_picture)
     }
-  } catch (error) {
-    console.error('Failed to fetch data:', error)
   }
+  return null
+}
+
+// Queries
+const { data: projects, isLoading: isLoadingProjects } = useQuery({
+  queryKey: ['projects'],
+  queryFn: fetchProjects
+})
+
+const { data: companies, isLoading: isLoadingCompanies } = useQuery({
+  queryKey: ['companies'],
+  queryFn: fetchCompanies
+})
+
+const { data: skills, isLoading: isLoadingSkills } = useQuery({
+  queryKey: ['skills'],
+  queryFn: fetchSkills
+})
+
+const { data: profile, isLoading: isLoadingProfile } = useQuery({
+  queryKey: ['profile'],
+  queryFn: fetchProfile
+})
+
+const isLoading = computed(() =>
+  isLoadingProjects.value ||
+  isLoadingCompanies.value ||
+  isLoadingSkills.value ||
+  isLoadingProfile.value
+)
+
+const allExperiences = computed(() => {
+  const exps = []
+  if (companies.value) {
+    companies.value.forEach(company => {
+      if (company.experiences) {
+        company.experiences.forEach(exp => {
+          exps.push({
+            ...exp,
+            company_name: company.name
+          })
+        })
+      }
+    })
+  }
+  return exps.sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
 })
 </script>

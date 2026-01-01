@@ -21,5 +21,15 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['vue', 'vue-router', 'pinia'],
+          'ui': ['lucide-vue-next', 'radix-vue', 'shadcn-vue', 'class-variance-authority', 'clsx', 'tailwind-merge'],
+        }
+      }
+    }
   }
 })
