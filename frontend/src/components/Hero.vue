@@ -52,7 +52,7 @@
             <div class="flex flex-wrap gap-x-2">
               <span class="text-code-key">"bio"</span><span class="text-white">:</span>
               <span class="text-code-string">"{{ profile?.bio || 'Building scalable digital experiences.'
-                }}"</span><span class="text-white">,</span>
+              }}"</span><span class="text-white">,</span>
             </div>
 
             <div v-if="profile?.languages && profile.languages.length > 0" class="flex flex-wrap gap-x-2">
@@ -72,7 +72,7 @@
               <span class="text-white">"</span>
               <a :href="profile?.linkedin || '#'" target="_blank"
                 class="text-code-string hover:underline decoration-primary/50 underline-offset-4">
-                {{ profile?.linkedin || 'linkedin.com/in/ayoubkarafi' }}
+                {{ profile?.linkedin || 'linkedin.com/in/4yuub' }}
               </a>
               <span class="text-white">",</span>
             </div>
@@ -80,7 +80,7 @@
               <span class="text-white">"</span>
               <a :href="profile?.github || '#'" target="_blank"
                 class="text-code-string hover:underline decoration-primary/50 underline-offset-4">
-                {{ profile?.github || 'github.com/ayoubkarafi' }}
+                {{ profile?.github || 'github.com/4yuub' }}
               </a>
               <span class="text-white">"</span>
             </div>
