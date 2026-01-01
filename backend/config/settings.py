@@ -10,7 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
+import dj_database_url
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,19 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-4o0b4ew!8$b%d*x9n+e&50$yaaal^)pozv%)ka=-^irjw5x#($"
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-me-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = [
-    'por7folio-backend-941195300524.europe-west1.run.app',
-    'por7folio-frontend-941195300524.europe-west1.run.app',
-    '4yuub.com',
-    'localhost',
-    '127.0.0.1',
-    '.run.app',
-]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 # Application definition
@@ -87,10 +86,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
+    )
 }
 
 
@@ -147,21 +145,19 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com' # Or your provider
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com' # Update this
-EMAIL_HOST_PASSWORD = 'your-app-password' # Update this
-DEFAULT_FROM_EMAIL = 'Portfolio System <your-email@gmail.com>'
-CONTACT_EMAIL = 'karafi.work@gmail.com' # Where you receive messages
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'your-email@gmail.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'your-app-password')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', f'Portfolio System <{EMAIL_HOST_USER}>')
+CONTACT_EMAIL = os.getenv('CONTACT_EMAIL', 'karafi.work@gmail.com')
 
 # Use console backend in dev if no SMTP settings are provided
 if not EMAIL_HOST_USER or 'your-email' in EMAIL_HOST_USER:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-CORS_ALLOW_ALL_ORIGINS = True  # For development
+CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'True').lower() == 'true'
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://por7folio-backend-941195300524.europe-west1.run.app',
-    'https://por7folio-frontend-941195300524.europe-west1.run.app',
-    'https://4yuub.com',
-]
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
+if not CSRF_TRUSTED_ORIGINS[0]:
+    CSRF_TRUSTED_ORIGINS = []
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
