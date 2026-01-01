@@ -29,7 +29,7 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 
 from rest_framework.permissions import AllowAny, IsAdminUser
@@ -56,13 +56,17 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
         try:
             subject = f"Portfolio Contact: {message_obj.subject}"
             content = f"Message from: {message_obj.name} ({message_obj.email})\n\n{message_obj.message}"
-            send_mail(
+            
+            email = EmailMessage(
                 subject,
                 content,
                 settings.DEFAULT_FROM_EMAIL,
                 [settings.CONTACT_EMAIL],
-                fail_silently=False,
+                cc=[message_obj.email],
             )
+            email.send(fail_silently=False)
+            
         except Exception as e:
             # We still return success because it's saved in DB
             print(f"Email failed to send: {e}")
+
