@@ -32,9 +32,21 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
 from django.core.mail import send_mail
 from django.conf import settings
 
+from rest_framework.permissions import AllowAny, IsAdminUser
+
 class ContactMessageViewSet(viewsets.ModelViewSet):
     queryset = ContactMessage.objects.all()
     serializer_class = ContactMessageSerializer
+
+    def get_permissions(self):
+        """
+        Allow anyone to POST (send logs), but only Admin can GET (view logs).
+        """
+        if self.action == 'create':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
         # Save the message to DB
