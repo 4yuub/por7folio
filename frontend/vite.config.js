@@ -26,8 +26,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor': ['vue', 'vue-router', 'pinia'],
-          'ui': ['lucide-vue-next', 'radix-vue', 'shadcn-vue', 'class-variance-authority', 'clsx', 'tailwind-merge'],
+          'vendor': ['vue', 'vue-router'],
+          'ui': ['lucide-vue-next', 'radix-vue', 'class-variance-authority', 'clsx', 'tailwind-merge'],
         }
       }
     }
