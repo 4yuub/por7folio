@@ -149,7 +149,7 @@ if GS_BUCKET_NAME and not DEBUG:
     STORAGES["default"] = {
         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
     }
-    # GS_DEFAULT_ACL = 'publicRead'  <-- Removing this prevents errors with Uniform Bucket Level Access
+    GS_QUERYSTRING_AUTH = False 
     MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
 else:
     # Development or Fallback: Use local disk
