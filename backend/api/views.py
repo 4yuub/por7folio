@@ -63,6 +63,7 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
                 settings.DEFAULT_FROM_EMAIL,
                 [settings.CONTACT_EMAIL],
                 cc=[message_obj.email],
+                reply_to=[message_obj.email]
             )
             email.send(fail_silently=False)
             
