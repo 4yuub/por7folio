@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "api",
     "easy_thumbnails",
     "image_cropping",
+    "storages",
 ]
 
 MIDDLEWARE = [
