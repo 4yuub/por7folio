@@ -143,12 +143,18 @@ STORAGES = {
 # Media files (User uploads)
 GS_BUCKET_NAME = os.getenv('GS_BUCKET_NAME')
 
-if GS_BUCKET_NAME:
-    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+if GS_BUCKET_NAME and not DEBUG:
+    # Production: Use Google Cloud Storage
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+    }
     GS_DEFAULT_ACL = 'publicRead'
     MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
 else:
-    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    # Development or Fallback: Use local disk
+    STORAGES["default"] = {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    }
     MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
@@ -160,8 +166,6 @@ THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.scale_and_crop',
     'easy_thumbnails.processors.filters',
 )
-
-MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Email Configuration
