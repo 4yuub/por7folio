@@ -74,22 +74,20 @@
       </section>
 
       <!-- Skills Section -->
-      <section id="skills" class="py-16 scroll-mt-20">
-        <div class="max-w-6xl mx-auto px-4 mb-12">
-          <div class="flex items-center gap-4 group">
-            <div class="px-3 py-1 bg-primary/10 border border-primary/20 rounded-md">
-              <span class="text-[10px] font-mono font-bold text-primary uppercase tracking-widest">GET</span>
-            </div>
-            <h2
-              class="text-xl font-mono font-bold text-white tracking-tight group-hover:text-primary transition-colors">
-              /Skills</h2>
-            <div class="h-[1px] flex-grow bg-white/5 mx-4"></div>
+      <!-- Skills Section -->
+      <section id="skills" class="space-y-16">
+        <div class="space-y-4">
+          <div class="flex items-center gap-4">
+            <h2 class="text-2xl font-mono font-black text-cozy-charcoal dark:text-white uppercase tracking-tighter">
+              <span class="text-primary">GET</span> /skills
+            </h2>
+            <div class="flex-1 h-px bg-border/50"></div>
           </div>
         </div>
 
         <div class="max-w-6xl mx-auto px-4">
           <Skills v-if="skills.length" :skills="skills" />
-          <p v-else class="text-center font-mono text-muted-foreground animate-pulse text-sm">Loading Skills.json...</p>
+          <p v-else class="text-center font-mono text-muted-foreground animate-pulse text-sm">Loading skills.json...</p>
         </div>
       </section>
 
