@@ -2,7 +2,7 @@
 
 A production-grade, containerized portfolio website designed with a "Minimalist Cozy" and "IDE-inspired" aesthetic. It features a decoupled architecture with a Vue.js frontend and a Django backend, fully optimized for serverless deployment on Google Cloud Run.
 
-![Portfolio Preview](frontend/public/favicon.ico) *Add a screenshot here*
+![Portfolio Preview](https://storage.googleapis.com/por7folio-media/projects/gallery/Screenshot_2026-01-01_at_16.00.57.png)
 
 ## 🚀 Tech Stack
 
@@ -69,6 +69,3 @@ This project is configured for continuous deployment to Cloud Run.
     - `DATABASE_URL`: Your PostgreSQL connection string.
     - `SECRET_KEY`, `DEBUG`: Django security settings.
 3.  **Permissions:** The Cloud Run service account requires `Storage Object Admin` role.
-
-## 📄 License
-MIT
