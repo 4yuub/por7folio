@@ -53,7 +53,8 @@
             <div class="space-y-10">
               <div class="flex items-center gap-4 -mt-1.5">
                 <img v-if="company.logo" :src="company.logo" :alt="company.name"
-                  class="h-10 w-10 rounded-xl object-contain bg-white p-1.5 border border-border/50 shadow-sm" />
+                  class="h-10 w-10 rounded-xl object-contain bg-white p-1.5 border border-border/50 shadow-sm"
+                  loading="lazy" decoding="async" />
                 <div class="flex flex-col">
                   <div class="flex items-center gap-2">
                     <h3 class="text-2xl font-black text-cozy-charcoal dark:text-white tracking-tight leading-none">{{

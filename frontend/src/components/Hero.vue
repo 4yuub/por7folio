@@ -22,7 +22,8 @@
           <div
             class="relative w-full h-full p-1 bg-white/5 rounded-xl border border-white/10 rotate-3 group-hover/terminal:rotate-0 transition-transform duration-500">
             <img :src="profile.profile_picture" :alt="profile.name"
-              class="w-full h-full object-cover rounded-lg grayscale hover:grayscale-0 transition-all duration-500" />
+              class="w-full h-full object-cover rounded-lg grayscale hover:grayscale-0 transition-all duration-500"
+              decoding="async" />
             <!-- Code Decoration -->
             <div class="absolute -top-3 -left-3 text-[10px] text-code-comment">/* avatar.px */</div>
           </div>
@@ -52,7 +53,7 @@
             <div class="flex flex-wrap gap-x-2">
               <span class="text-code-key">"bio"</span><span class="text-white">:</span>
               <span class="text-code-string">"{{ profile?.bio || 'Building scalable digital experiences.'
-              }}"</span><span class="text-white">,</span>
+                }}"</span><span class="text-white">,</span>
             </div>
 
             <div v-if="profile?.languages && profile.languages.length > 0" class="flex flex-wrap gap-x-2">

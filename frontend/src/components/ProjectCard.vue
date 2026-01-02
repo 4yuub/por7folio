@@ -18,7 +18,8 @@
         <div
           class="relative w-full h-full p-1 bg-white/5 rounded-lg border border-white/10 -rotate-2 group-hover/preview:rotate-0 group-hover/preview:scale-105 group-hover/preview:border-primary/50 transition-all duration-500">
           <img :src="project.image" :alt="project.title"
-            class="w-full h-full object-cover rounded-md grayscale group-hover/preview:grayscale-0 transition-all duration-500" />
+            class="w-full h-full object-cover rounded-md grayscale group-hover/preview:grayscale-0 transition-all duration-500"
+            loading="lazy" decoding="async" />
           <!-- Code Decoration -->
           <div class="absolute -top-3 -left-3 text-[9px] text-code-comment group-hover/preview:text-primary">
             /* click.to_expand() */
@@ -132,7 +133,8 @@
             <Transition name="slide" mode="out-in">
               <div :key="currentImageIndex" class="w-full h-full flex flex-col items-center justify-center">
                 <img :src="allGalleryImages[currentImageIndex]"
-                  class="max-w-full max-h-[85vh] object-contain rounded-lg border border-white/20 shadow-2xl bg-black/40" />
+                  class="max-w-full max-h-[85vh] object-contain rounded-lg border border-white/20 shadow-2xl bg-black/40"
+                  loading="lazy" decoding="async" />
 
                 <!-- Info Bar -->
                 <div class="mt-8 flex items-center gap-4 text-[10px] text-code-comment uppercase tracking-widest">
