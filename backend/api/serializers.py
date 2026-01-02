@@ -17,7 +17,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_cropped_picture(self, obj):
         if obj.profile_picture and obj.cropping:
-            thumbnail_options = {'size': (400, 400), 'crop': True, 'box': obj.cropping}
+            thumbnail_options = {'size': (400, 400), 'crop': True, 'box': obj.cropping, 'output_format': 'WEBP'}
             url = get_thumbnailer(obj.profile_picture).get_thumbnail(thumbnail_options).url
             return url
         return None
@@ -49,7 +49,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_cropped_image(self, obj):
         if obj.image and obj.cropping:
-            thumbnail_options = {'size': (800, 450), 'crop': True, 'box': obj.cropping}
+            thumbnail_options = {'size': (800, 450), 'crop': True, 'box': obj.cropping, 'output_format': 'WEBP'}
             url = get_thumbnailer(obj.image).get_thumbnail(thumbnail_options).url
             return url
         return None

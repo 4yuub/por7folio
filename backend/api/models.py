@@ -28,7 +28,7 @@ class Company(models.Model):
     location = models.CharField(max_length=100, blank=True)
     website = models.URLField(blank=True)
     logo = models.ImageField(upload_to='companies/', blank=True)
-    order = models.PositiveIntegerField(default=0)
+    order = models.PositiveIntegerField(default=0, db_index=True)
 
     class Meta:
         verbose_name_plural = "Companies"
@@ -40,11 +40,11 @@ class Company(models.Model):
 class Experience(models.Model):
     company = models.ForeignKey(Company, related_name='experiences', on_delete=models.CASCADE)
     role = models.CharField(max_length=100)
-    start_date = models.DateField()
+    start_date = models.DateField(db_index=True)
     end_date = models.DateField(blank=True, null=True)
     is_current = models.BooleanField(default=False)
     description = models.TextField()
-    order = models.PositiveIntegerField(default=0)
+    order = models.PositiveIntegerField(default=0, db_index=True)
 
     class Meta:
         ordering = ['-start_date', 'order']
@@ -60,7 +60,7 @@ class Project(models.Model):
     url = models.URLField(blank=True, verbose_name="Deployed URL")
     github_url = models.URLField(blank=True, verbose_name="GitHub URL")
     technologies = models.CharField(max_length=200)
-    order = models.PositiveIntegerField(default=0)
+    order = models.PositiveIntegerField(default=0, db_index=True)
 
     class Meta:
         ordering = ['order', '-id']
@@ -71,7 +71,7 @@ class Project(models.Model):
 class ProjectImage(models.Model):
     project = models.ForeignKey(Project, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='projects/gallery/')
-    order = models.PositiveIntegerField(default=0)
+    order = models.PositiveIntegerField(default=0, db_index=True)
 
     class Meta:
         ordering = ['order', 'id']
@@ -88,8 +88,8 @@ class Skill(models.Model):
         ('Other', 'Other'),
     ]
     name = models.CharField(max_length=50)
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
-    order = models.PositiveIntegerField(default=0)
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, db_index=True)
+    order = models.PositiveIntegerField(default=0, db_index=True)
 
     class Meta:
         ordering = ['category', 'order', 'name']

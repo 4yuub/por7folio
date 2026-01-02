@@ -147,6 +147,9 @@ STORAGES = {
     },
 }
 
+# WhiteNoise: Keep only hashed files to ensure immutable caching
+WHITENOISE_KEEP_ONLY_HASHED_FILES = True
+
 # Media files (User uploads)
 GS_BUCKET_NAME = os.getenv('GS_BUCKET_NAME')
 
@@ -196,3 +199,11 @@ if not CSRF_TRUSTED_ORIGINS[0]:
     CSRF_TRUSTED_ORIGINS = []
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# REST Framework Configuration
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'drf_orjson_renderer.renderers.ORJSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+}

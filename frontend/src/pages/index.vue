@@ -116,8 +116,10 @@
 <script setup>
 import { useQuery } from '@tanstack/vue-query'
 import { ExternalLink } from 'lucide-vue-next'
-import { computed } from 'vue'
-import Skills from '../components/Skills.vue'
+import { computed, defineAsyncComponent } from 'vue'
+
+const Skills = defineAsyncComponent(() => import('../components/Skills.vue'))
+const ContactForm = defineAsyncComponent(() => import('../components/ContactForm.vue'))
 
 const BACKEND_URL = import.meta.env.DEV ? 'http://localhost:8000' : ''
 const API_BASE = import.meta.env.DEV ? `${BACKEND_URL}/api` : '/api'

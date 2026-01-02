@@ -13,5 +13,14 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
-app.use(VueQueryPlugin)
+app.use(VueQueryPlugin, {
+  queryClientConfig: {
+    defaultOptions: {
+      queries: {
+        staleTime: Infinity,
+        refetchOnWindowFocus: false,
+      },
+    },
+  },
+})
 app.mount('#app')
