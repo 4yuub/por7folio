@@ -1,12 +1,9 @@
 <template>
   <div class="min-h-screen bg-[#fafafa] dark:bg-[#0b0f1a] selection:bg-primary/20">
-    <div v-if="isLoading" class="flex flex-col items-center justify-center min-h-screen space-y-4">
-      <div class="w-12 h-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin"></div>
-      <p class="font-mono text-sm text-muted-foreground animate-pulse">Initializing System...</p>
-    </div>
-
-    <div v-else class="container mx-auto px-6 py-0 space-y-24">
-      <Hero :profile="profile" />
+    <div class="container mx-auto px-6 py-0 space-y-24">
+      <!-- Hero Section -->
+      <SkeletonHero v-if="isLoadingProfile" />
+      <Hero v-else :profile="profile" />
 
       <!-- Projects Section -->
       <section id="projects" class="space-y-24 pt-16">
@@ -19,7 +16,15 @@
           </div>
         </div>
 
-        <div v-if="projects.length" class="max-w-6xl mx-auto flex flex-col gap-12">
+        <div v-if="isLoadingProjects" class="max-w-6xl mx-auto flex flex-col gap-12">
+          <div v-for="n in 2" :key="n" :class="[
+            'w-full md:w-[85%] transition-all duration-700',
+            n % 2 === 0 ? 'self-end' : 'self-start'
+          ]">
+            <SkeletonProjectCard />
+          </div>
+        </div>
+        <div v-else-if="projects.length" class="max-w-6xl mx-auto flex flex-col gap-12">
           <div v-for="(project, index) in projects" :key="project.id" :class="[
             'w-full md:w-[85%] transition-all duration-700',
             index % 2 === 0 ? 'self-start' : 'self-end'
@@ -27,7 +32,6 @@
             <ProjectCard :project="project" />
           </div>
         </div>
-        <p v-else class="text-center font-mono text-muted-foreground animate-pulse text-sm">Loading projects.json...</p>
       </section>
 
       <!-- Experience Section -->
@@ -41,7 +45,8 @@
           </div>
         </div>
 
-        <div v-if="companies.length" class="max-w-3xl mx-auto space-y-16">
+        <SkeletonExperience v-if="isLoadingCompanies" />
+        <div v-else-if="companies.length" class="max-w-3xl mx-auto space-y-16">
           <div v-for="company in companies" :key="company.id"
             class="relative pl-12 border-l-2 border-border/40 last:border-l-transparent">
             <!-- Company Big Dot -->
@@ -75,11 +80,8 @@
             </div>
           </div>
         </div>
-        <p v-else class="text-center font-mono text-muted-foreground animate-pulse text-sm">Fetching experience.log...
-        </p>
       </section>
 
-      <!-- Skills Section -->
       <!-- Skills Section -->
       <section id="skills" class="space-y-16">
         <div class="space-y-4">
@@ -92,8 +94,8 @@
         </div>
 
         <div class="max-w-6xl mx-auto px-4">
-          <Skills v-if="skills.length" :skills="skills" />
-          <p v-else class="text-center font-mono text-muted-foreground animate-pulse text-sm">Loading skills.json...</p>
+          <SkeletonSkills v-if="isLoadingSkills" />
+          <Skills v-else-if="skills.length" :skills="skills" />
         </div>
       </section>
 
@@ -117,6 +119,11 @@
 import { useQuery } from '@tanstack/vue-query'
 import { ExternalLink } from 'lucide-vue-next'
 import { computed, defineAsyncComponent } from 'vue'
+
+import SkeletonExperience from '../components/skeletons/SkeletonExperience.vue'
+import SkeletonHero from '../components/skeletons/SkeletonHero.vue'
+import SkeletonProjectCard from '../components/skeletons/SkeletonProjectCard.vue'
+import SkeletonSkills from '../components/skeletons/SkeletonSkills.vue'
 
 const Skills = defineAsyncComponent(() => import('../components/Skills.vue'))
 const ContactForm = defineAsyncComponent(() => import('../components/ContactForm.vue'))
@@ -187,13 +194,6 @@ const { data: profile, isLoading: isLoadingProfile } = useQuery({
   queryKey: ['profile'],
   queryFn: fetchProfile
 })
-
-const isLoading = computed(() =>
-  isLoadingProjects.value ||
-  isLoadingCompanies.value ||
-  isLoadingSkills.value ||
-  isLoadingProfile.value
-)
 
 const allExperiences = computed(() => {
   const exps = []

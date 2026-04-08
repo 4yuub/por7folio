@@ -17,6 +17,10 @@ declare module 'vue' {
     ProjectCard: typeof import('./src/components/ProjectCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SkeletonExperience: typeof import('./src/components/skeletons/SkeletonExperience.vue')['default']
+    SkeletonHero: typeof import('./src/components/skeletons/SkeletonHero.vue')['default']
+    SkeletonProjectCard: typeof import('./src/components/skeletons/SkeletonProjectCard.vue')['default']
+    SkeletonSkills: typeof import('./src/components/skeletons/SkeletonSkills.vue')['default']
     Skills: typeof import('./src/components/Skills.vue')['default']
   }
 }
