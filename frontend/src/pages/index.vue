@@ -47,8 +47,7 @@
 
         <SkeletonExperience v-if="isLoadingCompanies" />
         <div v-else-if="companies.length" class="max-w-3xl mx-auto space-y-16">
-          <div v-for="company in companies" :key="company.id"
-            class="relative pl-12 border-l-2 border-border/40 last:border-l-transparent">
+          <div v-for="company in companies" :key="company.id" class="relative pl-12 border-l-2 border-border/40">
             <!-- Company Big Dot -->
             <div
               class="absolute -left-[11px] top-0 h-5 w-5 rounded-full border-2 border-primary bg-background z-10 flex items-center justify-center">
