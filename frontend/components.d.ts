@@ -11,6 +11,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ColdStartNotice: typeof import('./src/components/ColdStartNotice.vue')['default']
     ContactForm: typeof import('./src/components/ContactForm.vue')['default']
     ExperienceTile: typeof import('./src/components/ExperienceTile.vue')['default']
     Hero: typeof import('./src/components/Hero.vue')['default']

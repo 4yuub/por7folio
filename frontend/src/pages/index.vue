@@ -111,14 +111,17 @@
         </div>
       </section>
     </div>
+
+    <ColdStartNotice :visible="showColdStartNotice" />
   </div>
 </template>
 
 <script setup>
 import { useQuery } from '@tanstack/vue-query'
 import { ExternalLink } from 'lucide-vue-next'
-import { computed, defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent, onUnmounted, ref, watch } from 'vue'
 
+import ColdStartNotice from '../components/ColdStartNotice.vue'
 import SkeletonExperience from '../components/skeletons/SkeletonExperience.vue'
 import SkeletonHero from '../components/skeletons/SkeletonHero.vue'
 import SkeletonProjectCard from '../components/skeletons/SkeletonProjectCard.vue'
@@ -193,6 +196,28 @@ const { data: profile, isLoading: isLoadingProfile } = useQuery({
   queryKey: ['profile'],
   queryFn: fetchProfile
 })
+
+// Cold-start notice: only surfaces once loading drags past a normal
+// response time, so a warm server never flashes the message.
+const COLD_START_DELAY_MS = 2500
+const isLoadingAny = computed(() =>
+  isLoadingProfile.value || isLoadingProjects.value || isLoadingCompanies.value || isLoadingSkills.value
+)
+const showColdStartNotice = ref(false)
+let coldStartTimer = null
+
+watch(isLoadingAny, (loading) => {
+  clearTimeout(coldStartTimer)
+  if (loading) {
+    coldStartTimer = setTimeout(() => {
+      showColdStartNotice.value = true
+    }, COLD_START_DELAY_MS)
+  } else {
+    showColdStartNotice.value = false
+  }
+}, { immediate: true })
+
+onUnmounted(() => clearTimeout(coldStartTimer))
 
 const allExperiences = computed(() => {
   const exps = []
