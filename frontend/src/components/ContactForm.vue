@@ -19,7 +19,7 @@
           </div>
           <div class="flex flex-col">
             <span class="text-[10px] text-code-comment uppercase tracking-widest">Local-Time</span>
-            <span class="text-sm text-cozy-charcoal dark:text-white">{{ new Date().toLocaleTimeString() }}</span>
+            <span class="text-sm text-cozy-charcoal dark:text-white">{{ currentTime }}</span>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 
 const form = ref({
   name: '',
@@ -80,6 +80,12 @@ const form = ref({
 
 const loading = ref(false)
 const status = ref(null)
+
+const currentTime = ref(new Date().toLocaleTimeString())
+const clockTimer = setInterval(() => {
+  currentTime.value = new Date().toLocaleTimeString()
+}, 1000)
+onUnmounted(() => clearInterval(clockTimer))
 
 const handleSubmit = async () => {
   loading.value = true
